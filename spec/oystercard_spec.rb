@@ -10,6 +10,12 @@ describe Oystercard do
       expect(subject).to have_attributes(:balance => 0)
     end
 
+    it { is_expected.to respond_to(:top_up).with(1).argument }
+
+    it 'should give us balance after topping up' do
+      expect { subject.top_up(100) }.to change { subject.balance }.by 100
+    end 
+
   end
   
 end

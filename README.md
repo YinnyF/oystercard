@@ -9,11 +9,12 @@ A Makers Week 2 pair programming challenge.
 
 Objects  | Messages
 ------------- | -------------
-Oystercard | initialize, balance
+Oystercard | initialize, balance, top_up(value)
 
 ### Domain Model
 
 ```
 Oystercard <-- initialize --> sets balance to 0
 Oystercard <-- balance --> value
+Oystercard <-- top_up(value) --> balance
 ```
