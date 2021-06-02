@@ -16,5 +16,5 @@ Oystercard | initialize, balance, top_up(value)
 ```
 Oystercard <-- initialize --> sets balance to 0
 Oystercard <-- balance --> value
-Oystercard <-- top_up(value) --> balance
+Oystercard <-- top_up(value) --> balance, returns an error if balance > MAXIMUM_BALANCE
 ```

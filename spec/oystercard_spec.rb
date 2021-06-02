@@ -11,10 +11,18 @@ describe Oystercard do
     end
 
     it { is_expected.to respond_to(:top_up).with(1).argument }
+  end
 
+  context '#top_up' do
     it 'should give us balance after topping up' do
-      expect { subject.top_up(100) }.to change { subject.balance }.by 100
+      expect { subject.top_up(20) }.to change { subject.balance }.by 20
     end 
+
+    it 'raises an error if balance exceeds the default maximum balance' do
+      max_bal = Oystercard::MAXIMUM_BALANCE
+      subject.top_up(max_bal)
+      expect { subject.top_up(1) }.to raise_error "Balance exceeds #{max_bal}"
+    end
 
   end
   
