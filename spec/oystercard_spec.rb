@@ -9,11 +9,12 @@ describe Oystercard do
     it 'has an initial balance of 0 automagically' do
       expect(subject).to have_attributes(:balance => 0)
     end
-
-    it { is_expected.to respond_to(:top_up).with(1).argument }
   end
 
   context '#top_up' do
+
+    it { is_expected.to respond_to(:top_up).with(1).argument }
+
     it 'should give us balance after topping up' do
       expect { subject.top_up(20) }.to change { subject.balance }.by 20
     end 
@@ -25,6 +26,18 @@ describe Oystercard do
     end
 
   end
+  context '#deduct' do
+    it { is_expected.to respond_to(:deduct).with(1).argument }
+    it 'deducts amount from the total balance' do
+      subject.top_up(30)
+      expect{ subject.deduct(5)}.to change{ subject.balance }.by (-5)
+    end 
+    it 'raises error if balance is too low' do
+      expect { subject.deduct(1) }.to raise_error "Insufficient funds"
+    end
+  end
+
+
   
 end
 

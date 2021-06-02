@@ -9,7 +9,7 @@ A Makers Week 2 pair programming challenge.
 
 Objects  | Messages
 ------------- | -------------
-Oystercard | initialize, balance, top_up(value)
+Oystercard | initialize, balance, top_up(value), deduct(amount)
 
 ### Domain Model
 
@@ -17,4 +17,7 @@ Oystercard | initialize, balance, top_up(value)
 Oystercard <-- initialize --> sets balance to 0
 Oystercard <-- balance --> value
 Oystercard <-- top_up(value) --> balance, returns an error if balance > MAXIMUM_BALANCE
+Oystercard <-- deduct(amount) --> balance, returns error if 
+amount > @balance
+
 ```
