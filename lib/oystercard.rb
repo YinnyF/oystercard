@@ -4,6 +4,7 @@ class Oystercard
 
   def initialize
     @balance = 0
+    @in_journey = false
   end
 
   def top_up(amount)
@@ -16,15 +17,27 @@ class Oystercard
     raise "Insufficient funds" if enough_funds?(amount)
     @balance -= amount
   end
+
+  def in_journey?
+    @in_journey
+  end
+
+  def touch_in
+    @in_journey = true
+  end
+
+  def touch_out
+    @in_journey = false
+  end
   
-private
+  private
 
-def exceeds_max?(amount)
-  amount + @balance > MAXIMUM_BALANCE
-end 
+  def exceeds_max?(amount)
+    amount + @balance > MAXIMUM_BALANCE
+  end 
 
-def enough_funds?(amount)
-  amount > @balance
-end
+  def enough_funds?(amount)
+    amount > @balance
+  end
   
 end

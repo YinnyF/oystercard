@@ -24,8 +24,8 @@ describe Oystercard do
       subject.top_up(max_bal)
       expect { subject.top_up(1) }.to raise_error "Balance exceeds #{max_bal}"
     end
-
   end
+
   context '#deduct' do
     it { is_expected.to respond_to(:deduct).with(1).argument }
     it 'deducts amount from the total balance' do
@@ -37,22 +37,31 @@ describe Oystercard do
     end
   end
 
+  context '#in_journey?' do
+    it 'defaults to false' do
+      expect(subject).not_to be_in_journey
+    end
+  end
 
-  
+  context '#touch_in, #touch_out' do
+    before do
+      subject.top_up(Oystercard::MAXIMUM_BALANCE)
+    end
+
+    it { is_expected.to respond_to(:touch_in) }
+
+    it "touches in user" do
+      subject.touch_in
+      expect(subject).to be_in_journey
+    end
+  end
+
+    it { is_expected.to respond_to(:touch_out) }
+
+    it 'touches out the user' do
+      subject.touch_in
+      subject.touch_out
+      expect(subject).not_to be_in_journey
+    end
+  end
 end
-
-=begin
-Issue Comments:
-NameError - Raised when a given name is invalid or undefined.
-uninitialized constant Oystercard - 
-./spec/oystercard_spec.rb
-line number - 3
-
-Suggest resolve:
-To create an Oystercard class.
-
-Stack trace:
-- shows the order of the error. 
-- Ruby reads from top to bottom.
-
-=end
