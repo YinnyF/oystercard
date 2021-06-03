@@ -1,6 +1,7 @@
 require 'oystercard'
 
 describe Oystercard do
+  let(:station) {instance_double(Station)}
   context 'adding money to the card' do
     it 'returns 0 when you ask for the initial balance' do
       expect(subject.balance).to eq 0
@@ -26,17 +27,6 @@ describe Oystercard do
     end
   end
 
-  # context '#deduct' do
-  #   it { is_expected.to respond_to(:deduct).with(1).argument }
-  #   it 'deducts amount from the total balance' do
-  #     subject.top_up(30)
-  #     expect{ subject.deduct(5)}.to change{ subject.balance }.by (-5)
-  #   end 
-  #   it 'raises error if balance is too low' do
-  #     expect { subject.deduct(1) }.to raise_error "Insufficient funds"
-  #   end
-  # end
-
   context '#in_journey?' do
     it 'defaults to false' do
       expect(subject).not_to be_in_journey
@@ -47,18 +37,17 @@ describe Oystercard do
     before do
       subject.top_up(Oystercard::MAXIMUM_BALANCE)
     end
-
     it { is_expected.to respond_to(:touch_in) }
 
     it "touches in user" do
-      subject.touch_in
+      subject.touch_in(station)
       expect(subject).to be_in_journey
     end
 
     it { is_expected.to respond_to(:touch_out) }
 
     it 'touches out the user' do
-      subject.touch_in
+      subject.touch_in(station)
       subject.touch_out
       expect(subject).not_to be_in_journey
     end
@@ -66,12 +55,18 @@ describe Oystercard do
     it 'deducts the minimum fare from balance' do
       expect { subject.touch_out }.to change{ subject.balance }.by (-Oystercard::MIN_FARE)
     end
+    it 'record entry station' do
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq station
+      
+    end
   end
 
   context 'checks minimum balance' do
     it 'raises an error when touching in without minimum balance' do
-      expect { subject.touch_in }.to raise_error "Insufficient funds"
+      expect { subject.touch_in(station) }.to raise_error "Insufficient funds"
     end
   end  
 
 end
+
