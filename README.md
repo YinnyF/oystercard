@@ -10,7 +10,7 @@ A Makers Week 2 pair programming challenge.
 Objects  | Messages
 ------------- | -------------
 Oystercard | initialize, balance, top_up(value), deduct(amount), in_journey?, touch_in, touch_out
-Station | 
+Station | name (something it has), zone(something it has)
 
 ### Domain Model
 

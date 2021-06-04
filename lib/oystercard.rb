@@ -33,11 +33,17 @@ class Oystercard
   private
 
   def has_exit_station
+    puts "inside has_exit_station"
+    p @list_of_journeys[-1][:exit_station]
+    p !!@list_of_journeys[-1][:exit_station]
     !!@list_of_journeys[-1][:exit_station]
   end
 
   def has_entry_station
+    puts "inside has_entry_station"
+    p @list_of_journeys[-1][:entry_station]
     !!@list_of_journeys[-1][:entry_station]
+    p !!@list_of_journeys[-1][:entry_station]
   end
 
   def end_journey(station)
