@@ -33,6 +33,19 @@ describe Oystercard do
     end
   end
 
+  context '#list_of_journeys' do
+    it 'checks that the card has an empty list of journeys by default' do
+      expect(subject.list_of_journeys).to be_empty
+    end
+
+    it 'checks that touching in and out creates one journey' do
+      subject.top_up(90)
+      subject.touch_in(station)
+      subject.touch_out(station)
+      expect(subject.list_of_journeys).to eq([{:entry_station => station, :exit_station => station}])
+    end
+  end
+
   context '#touch_in, #touch_out' do
     before do
       subject.top_up(Oystercard::MAXIMUM_BALANCE)
@@ -48,16 +61,18 @@ describe Oystercard do
 
     it 'touches out the user' do
       subject.touch_in(station)
-      subject.touch_out
+      subject.touch_out(station)
       expect(subject).not_to be_in_journey
     end
 
     it 'deducts the minimum fare from balance' do
-      expect { subject.touch_out }.to change{ subject.balance }.by (-Oystercard::MIN_FARE)
+      subject.touch_in(station)
+      expect { subject.touch_out(station) }.to change{ subject.balance }.by (-Oystercard::MIN_FARE)
     end
+
     it 'record entry station' do
       subject.touch_in(station)
-      expect(subject.entry_station).to eq station
+      expect(subject.list_of_journeys[-1][:entry_station]).to eq station
       
     end
   end
