@@ -2,6 +2,7 @@ require 'oystercard'
 
 describe Oystercard do
   let(:station) {instance_double(Station)}
+  
   context 'adding money to the card' do
     it 'returns 0 when you ask for the initial balance' do
       expect(subject.balance).to eq 0
@@ -13,7 +14,6 @@ describe Oystercard do
   end
 
   context '#top_up' do
-
     it { is_expected.to respond_to(:top_up).with(1).argument }
 
     it 'should give us balance after topping up' do
